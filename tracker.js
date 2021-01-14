@@ -2,6 +2,7 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const { rootCertificates } = require('tls');
+const { allowedNodeEnvironmentFlags } = require('process');
 
 //Make the connection
 
@@ -18,7 +19,7 @@ connection.connect(function(err){
 
 //Function to view 
 
-function viewSearch {
+function viewSearch() {
     inquirer
     .prompt({
         name: "view",
@@ -61,9 +62,68 @@ function viewSearch {
 
 //Function to add 
 
+function addFunction () {
+    inquirer
+    .prompt({
+        name: "add",
+        type: "rawlist",
+        message: "What would you like to add?",
+        choices: [
+            "Add a new employee",
+            "Add a new department",
+            "Add a new role"
+            
 
+        ]
+    })
+    .then(function(answer){
+        switch (answer.action) {
+            case "Add a new employee":
+                addEmployee();
+                break;
+            
+            case "Add a new department":
+                addDepartment();
+                break;
+
+            case "Add a new role":
+                addRole();
+                break;
+        }
+    });
+    
+}
 
 //Function to update 
+
+function updateFunction() {
+    inquirer
+    .prompt({
+        name: "update",
+        type: "rawlist",
+        message: "What would you like to update?",
+        choices: [
+            "Update an employee",
+            "Update a department",
+            "Update a role"
+        ]
+    })
+    .then(function(answer){
+        switch(answer.action){
+            case "Update a new employee":
+                updateEmployee();
+                break;
+
+            case "Update a department":
+                updateDept();
+                break;
+
+            case "Update a role":
+                updateRole();
+                break;
+        }
+    });
+}
 
 //Function to delete 
 
