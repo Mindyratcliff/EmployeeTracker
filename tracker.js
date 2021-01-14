@@ -15,7 +15,44 @@ let connection = mysql.createConnection({
 
 connection.connect(function(err){
     if (err) throw err;
+    userOptions();
 });
+
+//Initial prompt
+
+function userOptions () {
+    inquirer
+    .prompt({
+        name: "options",
+        type: "rawlist",
+        message: "What would you like to do?",
+        choices: [
+            "View an employee, department or role",
+            "Add an employee, department or role",
+            "Update an employee, department or role",
+            "Delete an employee, department or role"
+        ]
+    })
+    .then(function (answer){
+        switch (answer.action){
+            case "View an employee, department or role":
+                viewSearch();
+                break;
+
+            case "Add an employee, department or role":
+                addFunction();
+                break;
+
+            case "Update an employee, department or role":
+                updateFunction();
+                break;
+
+            case "Delete an employee, department or role":
+                deleteFunction();
+                break;
+        }
+    });
+}
 
 //Function to view 
 
