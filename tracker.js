@@ -110,7 +110,7 @@ function updateFunction() {
     })
     .then(function(answer){
         switch(answer.action){
-            case "Update a new employee":
+            case "Update an employee":
                 updateEmployee();
                 break;
 
@@ -127,4 +127,31 @@ function updateFunction() {
 
 //Function to delete 
 
+function deleteFunction() {
+    inquirer
+    .prompt({
+        name: "delete",
+        type: "rawlist",
+        message: "What would you like to delete?",
+        choices: [
+            "Delete an employee",
+            "Delete a department",
+            "Delete a role"
+        ]
+    })
+    .then(function(answer){
+        switch(answer.action){
+            case "Delete an employee":
+                deleteEmployee();
+                break;
 
+            case "Delete adepartment":
+                deleteDept();
+                break;
+
+            case "Delete a role":
+                deleteRole();
+                break;
+        }
+    });
+}
