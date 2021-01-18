@@ -430,3 +430,40 @@ function addDepartment() {
       }
     );
     })};
+
+    
+function addRole() {
+    inquirer
+    .prompt([
+        {
+        name: "roleTitle",
+        type: "input",
+        message: "Please enter the title for the role you would like to add."
+    },
+    {
+        name: "roleSalary",
+        type: "input",
+        message: "In integers, please enter the salary for the role."
+
+    },
+    {
+        name: "roleDept",
+        type: "input",
+        message: "Please enter the department idenfication number for the role."
+    }])
+    .then(function(answer){
+        console.log("Inserting a new role...\n");
+        var query = connection.query(
+      "INSERT INTO role SET ?",
+      {
+        title: answer.roleTitle,
+        salary: answer.roleSalary,
+        department_id: answer.roleDept,
+      },
+        function(err, res) {
+        if (err) throw err;
+        console.log(res.affectedRows + " role added!\n");
+        userOptions();
+      }
+    );
+    })};
