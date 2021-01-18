@@ -514,7 +514,7 @@ function updateEmployee() {
     });
 }
 
-function askFirstName() {
+function askFirstName(data) {
   inquirer
     .prompt({
       name: "firstName",
@@ -529,6 +529,9 @@ function askFirstName() {
           {
             first_name: answer.firstName,
           },
+          {
+            id: data.updateEmployee,
+          },
         ],
         function (err, res) {
           if (err) throw err;
@@ -539,7 +542,7 @@ function askFirstName() {
     });
 }
 
-function askLastName() {
+function askLastName(data) {
   inquirer
     .prompt({
       name: "lastName",
@@ -554,6 +557,9 @@ function askLastName() {
           {
             last_name: answer.lastName,
           },
+          {
+            id: data.updateEmployee,
+          },
         ],
         function (err, res) {
           if (err) throw err;
@@ -564,7 +570,7 @@ function askLastName() {
     });
 }
 
-function askRole() {
+function askRole(data) {
   inquirer
     .prompt({
       name: "role",
@@ -579,6 +585,9 @@ function askRole() {
           {
             role_id: answer.role,
           },
+          {
+            id: data.updateEmployee,
+          },
         ],
         function (err, res) {
           if (err) throw err;
@@ -589,7 +598,7 @@ function askRole() {
     });
 }
 
-function askManager() {
+function askManager(data) {
   inquirer
     .prompt({
       name: "manager",
@@ -604,6 +613,9 @@ function askManager() {
           {
             manager_id: answer.manager,
           },
+          {
+            id: data.updateEmployee,
+          },
         ],
         function (err, res) {
           if (err) throw err;
@@ -616,216 +628,301 @@ function askManager() {
 
 //Update Department Functions
 
-
 function updateDept() {
-    inquirer
-      .prompt([
-        {
-          name: "updateDepartment",
-          type: "input",
-          message: "Please enter the name of the department you would like to update.",
-        },
-        {
-          name: "updateWhat",
-          type: "rawlist",
-          message: "Please select what you would like to update.",
-          choices: ["Name", "Id"],
-        },
-      ])
-      .then((data) => {
-        if (data.updateWhat == "Name") {
-          departmentName(data);
-        }
-        if (data.updateWhat == "Id") {
-          departmentId(data);
-        }
-      });
-  }
-
-
-function departmentName() {
-    inquirer
-      .prompt({
-        name: "departmentName",
+  inquirer
+    .prompt([
+      {
+        name: "updateDepartment",
         type: "input",
-        message: "Please enter the new name of the department.",
-      })
-      .then(function (answer) {
-        console.log("Updating department name...\n");
-        var query = connection.query(
-          "UPDATE department SET ? WHERE ? ",
-          [
-            {
-              name: answer.departmentName,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " updated!\n");
-            userOptions();
-          }
-        );
-      });
-  }
-  
-  function departmentId() {
-    inquirer
-      .prompt({
-        name: "departmentId",
-        type: "input",
-        message: "Please enter the ID of the department.",
-      })
-      .then(function (answer) {
-        console.log("Updating department ID...\n");
-        var query = connection.query(
-          "UPDATE department SET ? WHERE ? ",
-          [
-            {
-              id: answer.departmentId,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " updated!\n");
-            userOptions();
-          }
-        );
-      });
-  }
+        message:
+          "Please enter the name of the department you would like to update.",
+      },
+      {
+        name: "updateWhat",
+        type: "rawlist",
+        message: "Please select what you would like to update.",
+        choices: ["Name", "Id"],
+      },
+    ])
+    .then((data) => {
+      if (data.updateWhat == "Name") {
+        departmentName(data);
+      }
+      if (data.updateWhat == "Id") {
+        departmentId(data);
+      }
+    });
+}
 
-  //Update Role Functions
+function departmentName(data) {
+  inquirer
+    .prompt({
+      name: "departmentName",
+      type: "input",
+      message: "Please enter the new name of the department.",
+    })
+    .then(function (answer) {
+      console.log("Updating department name...\n");
+      var query = connection.query(
+        "UPDATE department SET ? WHERE ? ",
+        [
+          {
+            name: answer.departmentName,
+          },
+          {
+            name: data.updateDepartment,
+          },
+        ],
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " updated!\n");
+          userOptions();
+        }
+      );
+    });
+}
 
+function departmentId(data) {
+  inquirer
+    .prompt({
+      name: "departmentId",
+      type: "input",
+      message: "Please enter the ID of the department.",
+    })
+    .then(function (answer) {
+      console.log("Updating department ID...\n");
+      var query = connection.query(
+        "UPDATE department SET ? WHERE ? ",
+        [
+          {
+            id: answer.departmentId,
+          },
+          {
+            name: data.updateDepartment,
+          },
+        ],
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " updated!\n");
+          userOptions();
+        }
+      );
+    });
+}
+
+//Update Role Functions
 
 function updateRole() {
-    inquirer
-      .prompt([
+  inquirer
+    .prompt([
+      {
+        name: "updateRole",
+        type: "input",
+        message: "Please enter the ID of the role you would like to update.",
+      },
+      {
+        name: "updateWhat",
+        type: "rawlist",
+        message: "Please select what you would like to update.",
+        choices: ["ID", "Title", "Salary", "Department"],
+      },
+    ])
+    .then((data) => {
+      if (data.updateWhat == "ID") {
+        askRoleId(data);
+      }
+      if (data.updateWhat == "Title") {
+        askRoleTitle(data);
+      }
+      if (data.updateWhat == "Salary") {
+        askRoleSalary(data);
+      }
+      if (data.updateWhat == "Department") {
+        askRoleDepartment(data);
+      }
+    });
+}
+
+function askRoleId(data) {
+  inquirer
+    .prompt({
+      name: "roleId",
+      type: "input",
+      message: "Please enter the ID for the role.",
+    })
+    .then(function (answer) {
+      console.log("Updating role ID...\n");
+      var query = connection.query(
+        "UPDATE role SET ? WHERE ? ",
+        [
+          {
+            id: answer.roleId,
+          },
+          {
+            id: data.updateRole,
+          },
+        ],
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " updated!\n");
+          userOptions();
+        }
+      );
+    });
+}
+
+function askRoleTitle(data) {
+  inquirer
+    .prompt({
+      name: "roleTitle",
+      type: "input",
+      message: "Please enter the title of the role.",
+    })
+    .then(function (answer) {
+      console.log("Updating role title...\n");
+      var query = connection.query(
+        "UPDATE role SET ? WHERE ? ",
+        [
+          {
+            title: answer.roleTitle,
+          },
+          {
+            id: data.updateRole,
+          },
+        ],
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " updated!\n");
+          userOptions();
+        }
+      );
+    });
+}
+
+function askRoleSalary(data) {
+  inquirer
+    .prompt({
+      name: "roleSalary",
+      type: "input",
+      message: "Please enter the new salary for the role.",
+    })
+    .then(function (answer) {
+      if (answer == NaN) {
+        console.log("Please enter a numeric value for the salary.");
+      }
+      console.log("Updating role salary...\n");
+      var query = connection.query(
+        "UPDATE role SET ? WHERE ? ",
+        [
+          {
+            salary: answer.roleSalary,
+          },
+          {
+            id: data.updateRole,
+          },
+        ],
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " updated!\n");
+          userOptions();
+        }
+      );
+    });
+}
+
+function askRoleDepartment(data) {
+  inquirer
+    .prompt({
+      name: "roleDept",
+      type: "input",
+      message: "Please enter the new department for the role.",
+    })
+    .then(function (answer) {
+      console.log("Updating role department...\n");
+      var query = connection.query(
+        "UPDATE role SET ? WHERE ? ",
+        [
+          {
+            department_id: answer.roleDept,
+          },
+          {
+            id: data.updateRole,
+          },
+        ],
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " updated!\n");
+          userOptions();
+        }
+      );
+    });
+}
+
+//Delete Functions
+
+function deleteEmployee() {
+  inquirer
+    .prompt({
+      name: "employeeDelete",
+      type: "input",
+      message: "Please enter the ID of the employee you would like to delete.",
+    })
+    .then(function (answer) {
+      console.log("Deleting employee...\n");
+      connection.query(
+        "DELETE FROM employee WHERE ?",
         {
-          name: "updateRole",
-          type: "input",
-          message: "Please enter the role you would like to update.",
+          id: "answer.employeeDelete",
         },
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " employee deleted!\n");
+        }
+      );
+    });
+}
+
+function deleteDept() {
+  inquirer
+    .prompt({
+      name: "deptDelete",
+      type: "input",
+      message:
+        "Please enter the ID of the department you would like to delete.",
+    })
+    .then(function (answer) {
+      console.log("Deleting department...\n");
+      connection.query(
+        "DELETE FROM department WHERE ?",
         {
-          name: "updateWhat",
-          type: "rawlist",
-          message: "Please select what you would like to update.",
-          choices: ["ID", "Title", "Salary", "Department"],
+          id: "answer.deptDelete",
         },
-      ])
-      .then((data) => {
-        if (data.updateWhat == "ID") {
-          askRoleId(data);
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " department deleted!\n");
         }
-        if (data.updateWhat == "Title") {
-          askRoleTitle(data);
+      );
+    });
+}
+
+function deleteRole() {
+  inquirer
+    .prompt({
+      name: "roleDelete",
+      type: "input",
+      message: "Please enter the ID of the role you would like to delete.",
+    })
+    .then(function (answer) {
+      console.log("Deleting role...\n");
+      connection.query(
+        "DELETE FROM role WHERE ?",
+        {
+          id: "answer.roleDelete",
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " role deleted!\n");
         }
-        if (data.updateWhat == "Salary") {
-          askRoleSalary(data);
-        }
-        if (data.updateWhat == "Department") {
-          askRoleDepartment(data);
-        }
-      });
-  }
-  
-  function askRoleId() {
-    inquirer
-      .prompt({
-        name: "roleId",
-        type: "input",
-        message: "Please enter the ID for the role.",
-      })
-      .then(function (answer) {
-        console.log("Updating role ID...\n");
-        var query = connection.query(
-          "UPDATE role SET ? WHERE ? ",
-          [
-            {
-              id: answer.roleId,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " updated!\n");
-            userOptions();
-          }
-        );
-      });
-  }
-  
-  function askRoleTitle() {
-    inquirer
-      .prompt({
-        name: "roleTitle",
-        type: "input",
-        message: "Please enter the title of the role.",
-      })
-      .then(function (answer) {
-        console.log("Updating role title...\n");
-        var query = connection.query(
-          "UPDATE role SET ? WHERE ? ",
-          [
-            {
-              title: answer.roleTitle,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " updated!\n");
-            userOptions();
-          }
-        );
-      });
-  }
-  
-  function askRoleSalary() {
-    inquirer
-      .prompt({
-        name: "roleSalary",
-        type: "input",
-        message: "Please enter the new salary for the role.",
-      })
-      .then(function (answer) {
-          if(answer == NaN) {
-              console.log("Please enter a numeric value for the salary.")
-          }
-        console.log("Updating role salary...\n");
-        var query = connection.query(
-          "UPDATE role SET ? WHERE ? ",
-          [
-            {
-              salary: answer.roleSalary,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " updated!\n");
-            userOptions();
-          }
-        );
-      });
-  }
-  
-  function askRoleDepartment() {
-    inquirer
-      .prompt({
-        name: "roleDept",
-        type: "input",
-        message: "Please enter the new department for the role.",
-      })
-      .then(function (answer) {
-        console.log("Updating role department...\n");
-        var query = connection.query(
-          "UPDATE role SET ? WHERE ? ",
-          [
-            {
-              department_id: answer.roleDept,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " updated!\n");
-            userOptions();
-          }
-        );
-      });
-  }
+      );
+    });
+}
