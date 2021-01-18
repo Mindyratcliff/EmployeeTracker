@@ -872,7 +872,7 @@ function deleteEmployee() {
       connection.query(
         "DELETE FROM employee WHERE ?",
         {
-          id: "answer.employeeDelete",
+          id: answer.employeeDelete,
         },
         function (err, res) {
           if (err) throw err;
@@ -895,7 +895,7 @@ function deleteDept() {
       connection.query(
         "DELETE FROM department WHERE ?",
         {
-          id: "answer.deptDelete",
+          id: answer.deptDelete,
         },
         function (err, res) {
           if (err) throw err;
@@ -917,7 +917,7 @@ function deleteRole() {
       connection.query(
         "DELETE FROM role WHERE ?",
         {
-          id: "answer.roleDelete",
+          id: answer.roleDelete,
         },
         function (err, res) {
           if (err) throw err;
