@@ -8,7 +8,7 @@ const { allowedNodeEnvironmentFlags } = require('process');
 
 let connection = mysql.createConnection({
     port: 3306,
-    user: root,
+    user: "root",
     password: "",
     database: "employees_db"
 });
@@ -34,7 +34,7 @@ function userOptions () {
         ]
     })
     .then(function (answer){
-        switch (answer.action){
+        switch (answer.options){
             case "View an employee, department or role":
                 viewSearch();
                 break;
@@ -73,7 +73,7 @@ function viewSearch() {
 
     })
     .then(function(answer){
-        switch (answer.action) {
+        switch (answer.view) {
             case "View all employees":
                 employeeSearch();
                 break;
@@ -114,7 +114,7 @@ function addFunction () {
         ]
     })
     .then(function(answer){
-        switch (answer.action) {
+        switch (answer.add) {
             case "Add a new employee":
                 addEmployee();
                 break;
@@ -146,7 +146,7 @@ function updateFunction() {
         ]
     })
     .then(function(answer){
-        switch(answer.action){
+        switch(answer.update){
             case "Update an employee":
                 updateEmployee();
                 break;
@@ -177,7 +177,7 @@ function deleteFunction() {
         ]
     })
     .then(function(answer){
-        switch(answer.action){
+        switch(answer.delete){
             case "Delete an employee":
                 deleteEmployee();
                 break;
@@ -192,3 +192,24 @@ function deleteFunction() {
         }
     });
 }
+
+//Functions to search
+
+function employeeSearch () {
+    inquirer
+    .prompt({
+        name: "employee",
+        type: "input",
+        message: "Which employee would you like to search for?"
+    })
+    .then(function(answer){
+        var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee WHERE ?";
+        connection.query(query, {employee: answer.employee}, function(err, res){
+            for (var i = 0; i  <res.length; i++){
+                console.log("ID: " + res[i].id + " || Employee: " + res[i].first_name + res[i].last_name + " || Role: " + res[i].role_id + " || Manager: " + res[i].manager_id  );
+            }
+            userOptions();
+        })
+    })
+}
+
