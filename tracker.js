@@ -199,12 +199,15 @@ function employeeSearch () {
     inquirer
     .prompt({
         name: "employee",
-        type: "input",
-        message: "Which employee would you like to search for?"
+        type: "confirm",
+        message: "Would you like to view all employees?"
     })
     .then(function(answer){
-        var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee WHERE ?";
+        var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee ";
         connection.query(query, {employee: answer.employee}, function(err, res){
+            if (err) {
+                console.log(err);
+            }
             for (var i = 0; i  <res.length; i++){
                 console.log("ID: " + res[i].id + " || Employee: " + res[i].first_name + res[i].last_name + " || Role: " + res[i].role_id + " || Manager: " + res[i].manager_id  );
             }
@@ -217,15 +220,23 @@ function roleSearch() {
     inquirer
       .prompt({
         name: "employeeRole",
-        type: "input",
-        message: "Which employee would you like to search for?"
+        type: "rawlist",
+        message: "Which employee role would you like to search for?",
+        choices: [
+            "Accountant",
+            "Representative",
+            "Salesman"
+        ]
       })
       .then(function(answer) {
         var query = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id ";
         query += "FROM employee INNER JOIN role ON employee.role_id = role.id ";
-        query += "WHERE (employee.role_id = ? AND role.id = ?) ORDER BY employee.id";
+        query += "WHERE (role.title = ?) ORDER BY employee.id";
   
-        connection.query(query, [answer.role_id, answer.id], function(err, res) {
+        connection.query(query, [answer.employeeRole], function(err, res) {
+            if (err){
+                console.log(err);
+            }
           console.log(res.length + " matches found!");
           for (var i = 0; i < res.length; i++) {
             console.log(
@@ -235,7 +246,7 @@ function roleSearch() {
                 " Role ID: " +
                 res[i].role_id +
                 " || Employee: " +
-                res[i].first_name +
+                res[i].first_name + " " +
                 res[i].last_name +
                 " || Manager: " +
                 res[i].manager_id 
@@ -247,3 +258,100 @@ function roleSearch() {
       });
   }
 
+function idSearch () {
+    inquirer
+    .prompt({
+        name: "employeeId",
+        type: "input",
+        message: "Please enter the ID for the employee you would like to view."
+    })
+    .then(function(answer){
+        var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee WHERE id = ?";
+        connection.query(query, [answer.employeeId], function(err, res) {
+            if (err){
+                console.log(err);
+            }
+            console.log(res.length + " matches found!");
+            for (var i = 0; i < res.length; i++){
+                console.log(
+                    i+1 + ".) " +
+                "ID: " +
+                res[i].id +
+                " Role ID: " +
+                res[i].role_id +
+                " || Employee: " +
+                res[i].first_name + " " +
+                res[i].last_name +
+                " || Manager: " +
+                res[i].manager_id 
+            );
+                
+            }
+            userOptions();
+        });
+    });
+}
+
+function departmentSearch() {
+    inquirer
+      .prompt({
+        name: "deptSearch",
+        type: "rawlist",
+        message: "Which department would you like to search for?",
+        choices: [
+            "Accounting",
+            "Human Resources",
+            "Sales"
+        ]
+      })
+      .then(function(answer) {
+        var query = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id ";
+        query += "FROM employee INNER JOIN role ON employee.role_id = role.id ";
+        query += "INNER JOIN department ON department.id = role.department_id ";
+        query += "WHERE (department.name = ?) ORDER BY employee.id";
+  
+        connection.query(query, [answer.deptSearch], function(err, res) {
+            if (err){
+                console.log(err);
+            }
+          console.log(res.length + " matches found!");
+          for (var i = 0; i < res.length; i++) {
+            console.log(
+              i+1 + ".) " +
+                "ID: " +
+                res[i].id +
+                " Role ID: " +
+                res[i].role_id +
+                " || Employee: " +
+                res[i].first_name + " " +
+                res[i].last_name +
+                " || Manager: " +
+                res[i].manager_id 
+            );
+          }
+  
+          userOptions();
+        });
+      });
+  }
+
+  function allDepartmentSearch () {
+    inquirer
+    .prompt({
+        name: "department",
+        type: "confirm",
+        message: "Would you like to view all departments?"
+    })
+    .then(function(answer){
+        var query = "SELECT id, name FROM department ";
+        connection.query(query, {employee: answer.department}, function(err, res){
+            if (err) {
+                console.log(err);
+            }
+            for (var i = 0; i  <res.length; i++){
+                console.log("ID: " + res[i].id + " || Department: " + res[i].name)
+            }
+            userOptions();
+        })
+    })
+}
