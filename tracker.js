@@ -355,3 +355,78 @@ function departmentSearch() {
         })
     })
 }
+
+//Add functions
+
+function addEmployee() {
+    inquirer
+    .prompt([
+        {
+        name: "employeeFirstName",
+        type: "input",
+        message: "Please enter the first name for the employee you would like to add."
+    },
+    {
+        name: "employeeLastName",
+        type: "input",
+        message: "Please enter the last name for the employee you would like to add."
+
+    },
+    {
+        name: "employeeRole",
+        type: "input",
+        message: "Please enter the role identification number for the employee."
+    },
+    {
+        name: "employeeManager",
+        type: "input",
+        message: "If the employee has a manager, please enter the manager's identification number."
+    }])
+    .then(function(answer){
+        console.log("Inserting a new employee...\n");
+        var query = connection.query(
+      "INSERT INTO employee SET ?",
+      {
+        first_name: answer.employeeFirstName,
+        last_name: answer.employeeLastName,
+        role_id: answer.employeeRole,
+        manager_id: answer.employeeManager
+      },
+        function(err, res) {
+        if (err) throw err;
+        console.log(res.affectedRows + " employee added!\n");
+        userOptions();
+      }
+    );
+    })};
+
+
+function addDepartment() {
+    inquirer
+    .prompt([
+        {
+        name: "departmentName",
+        type: "input",
+        message: "Please enter the name of the department you would like to add."
+    },
+    {
+        name: "departmentId",
+        type: "input",
+        message: "Please enter the identification number for the department you would like to add."
+
+    }])
+    .then(function(answer){
+        console.log("Inserting a new department...\n");
+        var query = connection.query(
+      "INSERT INTO department SET ?",
+      {
+        name: answer.departmentName,
+        id: answer.departmentId
+      },
+        function(err, res) {
+        if (err) throw err;
+        console.log(res.affectedRows + " department added!\n");
+        userOptions();
+      }
+    );
+    })};
