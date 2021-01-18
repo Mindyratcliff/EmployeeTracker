@@ -213,3 +213,37 @@ function employeeSearch () {
     })
 }
 
+function roleSearch() {
+    inquirer
+      .prompt({
+        name: "employeeRole",
+        type: "input",
+        message: "Which employee would you like to search for?"
+      })
+      .then(function(answer) {
+        var query = "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id ";
+        query += "FROM employee INNER JOIN role ON employee.role_id = role.id ";
+        query += "WHERE (employee.role_id = ? AND role.id = ?) ORDER BY employee.id";
+  
+        connection.query(query, [answer.role_id, answer.id], function(err, res) {
+          console.log(res.length + " matches found!");
+          for (var i = 0; i < res.length; i++) {
+            console.log(
+              i+1 + ".) " +
+                "ID: " +
+                res[i].id +
+                " Role ID: " +
+                res[i].role_id +
+                " || Employee: " +
+                res[i].first_name +
+                res[i].last_name +
+                " || Manager: " +
+                res[i].manager_id 
+            );
+          }
+  
+          userOptions();
+        });
+      });
+  }
+
