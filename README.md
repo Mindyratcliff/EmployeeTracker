@@ -33,11 +33,8 @@ To use this:
 
 You will need to have MySQL installed.
 
-Access it here: 
+![ScreenShot](screenshot.png)
 
-
-
-Full Demo 
 
 
 
