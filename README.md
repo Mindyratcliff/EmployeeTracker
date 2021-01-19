@@ -1,4 +1,4 @@
-# EmployeeTracker
+# Employee Tracker
 
 
  ![JavaScript](https://img.shields.io/github/languages/top/Mindyratcliff/employeetracker) ![MySQL](https://img.shields.io/badge/dependency-mysql-blue) ![Node](https://img.shields.io/badge/dependency-node-brightgreen) ![WomeninTech](https://img.shields.io/badge/womanmade-100%25-ff69b4)

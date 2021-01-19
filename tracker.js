@@ -819,6 +819,7 @@ function deleteEmployee() {
         function (err, res) {
           if (err) throw err;
           console.log(res.affectedRows + " employee deleted!\n");
+          userOptions();
         }
       );
     });
@@ -842,6 +843,7 @@ function deleteDept() {
         function (err, res) {
           if (err) throw err;
           console.log(res.affectedRows + " department deleted!\n");
+          userOptions();
         }
       );
     });
@@ -864,6 +866,7 @@ function deleteRole() {
         function (err, res) {
           if (err) throw err;
           console.log(res.affectedRows + " role deleted!\n");
+          userOptions();
         }
       );
     });
