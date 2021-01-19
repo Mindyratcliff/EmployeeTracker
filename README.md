@@ -35,6 +35,9 @@ You will need to have MySQL installed.
 
 ![ScreenShot](screenshot.png)
 
+Link to full demo video
+[Demo](https://drive.google.com/file/d/1EUjcwvxnp7YVdbZj8ejLuP5yD9ZyVQ94/view?usp=sharing)
+
 
 
 
