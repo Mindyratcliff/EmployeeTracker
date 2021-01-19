@@ -12,6 +12,6 @@ INSERT INTO `employees_db`.`role` (`id`, `title`, `salary`, `department_id`) VAL
 
 DELETE FROM `employees_db`.`employee`;
 INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`) VALUES ('1', 'Michael', 'Scott', '4');
-INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`) VALUES ('12', 'Dwight', 'Schrute', '2');
-INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`) VALUES ('13', 'Oscar', 'Martinez', '1');
-INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`) VALUES ('14', 'Toby', 'Flenderson', '3');
+INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`, `manager_id`) VALUES ('12', 'Dwight', 'Schrute', '2', '1');
+INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`, `manager_id`) VALUES ('13', 'Oscar', 'Martinez', '1', '1');
+INSERT INTO `employees_db`.`employee` (`id`, `first_name`, `last_name`, `role_id`, `manager_id`) VALUES ('14', 'Toby', 'Flenderson', '3', '1');

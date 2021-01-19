@@ -199,20 +199,8 @@ function employeeSearch() {
           if (err) {
             console.log(err);
           }
-          for (var i = 0; i < res.length; i++) {
-            console.log(
-              "ID: " +
-                res[i].id +
-                " || Employee: " +
-                res[i].first_name +
-                res[i].last_name +
-                " || Role: " +
-                res[i].role_id +
-                " || Manager: " +
-                res[i].manager_id
-            );
-          }
-          userOptions();
+            console.table(res);
+           userOptions();
         }
       );
     });
@@ -237,23 +225,7 @@ function roleSearch() {
           console.log(err);
         }
         console.log(res.length + " matches found!");
-        for (var i = 0; i < res.length; i++) {
-          console.log(
-            i +
-              1 +
-              ".) " +
-              "ID: " +
-              res[i].id +
-              " Role ID: " +
-              res[i].role_id +
-              " || Employee: " +
-              res[i].first_name +
-              " " +
-              res[i].last_name +
-              " || Manager: " +
-              res[i].manager_id
-          );
-        }
+        console.table(res);
 
         userOptions();
       });
@@ -275,23 +247,7 @@ function idSearch() {
           console.log(err);
         }
         console.log(res.length + " matches found!");
-        for (var i = 0; i < res.length; i++) {
-          console.log(
-            i +
-              1 +
-              ".) " +
-              "ID: " +
-              res[i].id +
-              " Role ID: " +
-              res[i].role_id +
-              " || Employee: " +
-              res[i].first_name +
-              " " +
-              res[i].last_name +
-              " || Manager: " +
-              res[i].manager_id
-          );
-        }
+        console.table(res);
         userOptions();
       });
     });
@@ -317,23 +273,7 @@ function departmentSearch() {
           console.log(err);
         }
         console.log(res.length + " matches found!");
-        for (var i = 0; i < res.length; i++) {
-          console.log(
-            i +
-              1 +
-              ".) " +
-              "ID: " +
-              res[i].id +
-              " Role ID: " +
-              res[i].role_id +
-              " || Employee: " +
-              res[i].first_name +
-              " " +
-              res[i].last_name +
-              " || Manager: " +
-              res[i].manager_id
-          );
-        }
+        console.table(res);
 
         userOptions();
       });
@@ -356,9 +296,7 @@ function allDepartmentSearch() {
           if (err) {
             console.log(err);
           }
-          for (var i = 0; i < res.length; i++) {
-            console.log("ID: " + res[i].id + " || Department: " + res[i].name);
-          }
+          console.table(res);
           userOptions();
         }
       );
