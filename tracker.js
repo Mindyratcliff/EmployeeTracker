@@ -31,6 +31,7 @@ function userOptions() {
         "Add an employee, department or role",
         "Update an employee, department or role",
         "Delete an employee, department or role",
+        "End"
       ],
     })
     .then(function (answer) {
@@ -50,6 +51,9 @@ function userOptions() {
         case "Delete an employee, department or role":
           deleteFunction();
           break;
+
+        case "End":
+        connection.end();
       }
     });
 }
